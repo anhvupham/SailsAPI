@@ -19,11 +19,12 @@ module.exports = function(req, res, next) {
         req.session.user = {
             name: 'Vincent',
             email: 'anhvu.phamduong@gmail.com',
-            id: 'test'
+            id: 'test',
+            isAdmin : true
         }
         return next();
     }
     // User is not allowed
     // (default res.forbidden() behavior can be overridden in `config/403.js`)
-    return res.forbidden('You are not permitted to perform this action.');
+    return res.forbidden(res.i18n('You are not permitted to perform this action.'));
 };

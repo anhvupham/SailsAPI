@@ -14,12 +14,10 @@ module.exports = {
             title: '',
             content: '',
             createdBy: {
-                email : '',
-                name : ''
+                email : ''
             },
             participants: [
                 {
-                    name: '',
                     email : '',
                     joining: false,
                     joindate : ''
@@ -29,7 +27,6 @@ module.exports = {
             currentTurnExpired: '',
             logs: [
                 {
-                    name: '',
                     email : '',
                     date: '',
                     content: ''

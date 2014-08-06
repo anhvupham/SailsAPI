@@ -36,12 +36,18 @@ module.exports.policies = {
 
     DocumentController: {
         '*': false,
-        'create': ['isAuthenticated', 'localize']
+        'create': ['isAuthenticated', 'localize'],
+        'getById': ['isAuthenticated', 'localize'],
+        'getDocumentsByEmail': ['isAuthenticated', 'localize']
     },
     UserController: {
         '*': false,
         'signup': true,
-        'signin': true
+        'signin': true,
+        'generateCaptcha': true,
+        'changeName': ['isAuthenticated', 'localize'],
+        'getNameByEmail': ['isAuthenticated', 'localize'],
+        'blockUser': ['isAuthenticated', 'localize', 'isAdmin']
     }
 };
 

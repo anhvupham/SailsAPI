@@ -31,13 +31,21 @@ module.exports.routes = {
     // located at `views/home/index.ejs`
     // 
     // (This would also work if you had a file at: `/views/home.ejs`)
-     '/': {
+    '/': {
         view: 'home/index'
     },
     /*Document URL*/
     '/:lang/document/new': {
         controller: 'DocumentController',
         action: 'create'
+    },
+    '/:lang/document/view/:id': {
+        controller: 'DocumentController',
+        action: 'getById'
+    },
+    '/:lang/document/view/email/:email': {
+        controller: 'DocumentController',
+        action: 'getDocumentsByEmail'
     },
     /*Document URL*/
     /*User URL*/
@@ -48,6 +56,22 @@ module.exports.routes = {
     '/:lang/user/signin': {
         controller: 'UserController',
         action: 'signin'
+    },
+    '/:lang/captcha': {
+        controller: 'UserController',
+        action: 'generateCaptcha'
+    },
+    '/:lang/user/changename': {
+        controller: 'UserController',
+        action: 'changeName'
+    },
+    '/:lang/user/getname/:email': {
+        controller: 'UserController',
+        action: 'getNameByEmail'
+    },
+    '/:lang/user/block/:email': {
+        controller: 'UserController',
+        action: 'blockUser'
     }
     /*User URL*/
     /*

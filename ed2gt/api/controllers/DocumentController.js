@@ -24,20 +24,20 @@ module.exports = {
             var email = req.session.user.email
             var name = req.session.user.name
             item.createdBy.email = email
-            item.createdBy.name = name
+            //item.createdBy.name = name
             item.participants.push({
                 email: email,
-                name: name,
+                //name: name,
                 joining: true,
                 joindate: new Date().format(res.i18n('MM/dd/yyyy HH:MM:ss'))
             })
             item.currentTurn = 0
             item.currentTurnExpired = new Date().addHours(sails.config.conf.maxHourDuration).format(res.i18n('MM/dd/yyyy HH:MM:ss'))
             item.logs.push({
-                name : name,
-                email : email,
-                date : new Date().format(res.i18n('MM/dd/yyyy HH:MM:ss')),
-                content : item.content
+                //name: name,
+                email: email,
+                date: new Date().format(res.i18n('MM/dd/yyyy HH:MM:ss')),
+                content: item.content
             })
             Document.create(item).done(function(err, newitem) {
                 if (err)
@@ -47,7 +47,7 @@ module.exports = {
                         code: 503,
                         err: {
                             message: err,
-                            root: 'document.create'
+                            root: 'document.create.createDocument'
                         }
                     }
                     utils.response(res, opts)
@@ -63,5 +63,74 @@ module.exports = {
                 }
             })
         }
+    },
+    getById: function(req, res) {
+        var id = utils.validateObject(req.param('id'), '')
+        Document.findOne(id).done(function(err, item) {
+            if (err)
+            {
+                var opts = {
+                    message: res.i18n('Opps, something wrong with DB'),
+                    code: 503,
+                    err: {
+                        message: err,
+                        root: 'document.getById.findOne'
+                    }
+                }
+                utils.response(res, opts)
+            }
+            else
+            {
+                if (!item)
+                {
+                    var opts = {
+                        message: 'Document is not existed',
+                        code: 200
+                    }
+                    utils.response(res, opts)
+                }
+                else
+                {
+                    var opts = {
+                        message: 'ok',
+                        code: 200,
+                        result: item
+                    }
+                    utils.response(res, opts)
+                }
+            }
+        })
+    },
+    getDocumentsByEmail: function(req, res) {
+        var email = utils.validateObject(req.param('email'), '')
+        Document.find().where({
+            'participants': {
+                $elemMatch: {
+                    email: email
+                }
+            }
+        }).done(function(err, items) {
+            if (err)
+            {
+                var opts = {
+                    message: res.i18n('Opps, something wrong with DB'),
+                    code: 503,
+                    err: {
+                        message: err,
+                        root: 'document.getById.findOne'
+                    }
+                }
+                utils.response(res, opts)
+            }
+            else
+            {
+                var opts = {
+                    message: 'ok',
+                    code: 200,
+                    result: items
+                }
+                utils.response(res, opts)
+            }
+        })
     }
 };
