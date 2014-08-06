@@ -15,7 +15,7 @@
 module.exports.adapters = {
     // If you leave the adapter config unspecified 
     // in a model definition, 'default' will be used.
-    'default': 'mongo',
+    'default': 'mongodev',
     // Persistent adapter for DEVELOPMENT ONLY
     // (data is preserved when the server shuts down)
     disk: {
@@ -32,13 +32,22 @@ module.exports.adapters = {
         password: 'YOUR_MYSQL_PASSWORD',
         database: 'YOUR_MYSQL_DB'
     },
-    mongo: {
+    mongoProd: {
+        module: 'sails-mongo',
+        host: 'troup.mongohq.com',
+        port: 10053,
+        user     : 'nodejitsu',
+        password : '8f21f76400113ba51b642caf7d0d5433',
+        database: 'nodejitsudb4994404413',
+        schema: true
+    },
+    mongodev : {
         module: 'sails-mongo',
         host: 'localhost',
         port: 27001,
-        //user     : 'username',
-        //password : 'password',
+        //user     : '',
+        //password : '',
         database: 'ed2gt',
         schema: true
-    }
+    }    
 };

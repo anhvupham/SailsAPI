@@ -37,6 +37,11 @@ module.exports.policies = {
     DocumentController: {
         '*': false,
         'create': ['isAuthenticated', 'localize']
+    },
+    UserController: {
+        '*': false,
+        'signup': true,
+        'signin': true
     }
 };
 

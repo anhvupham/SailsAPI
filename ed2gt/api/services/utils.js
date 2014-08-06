@@ -64,21 +64,70 @@ exports.normalize = function(main, schema, requireSanitizer) {
     }
 };
 
-exports.responseError = function(res, text, errorCode, devFlag, err) {
-    if (devFlag === 'production') {
-        res.json({
-            message: text
-        }, errorCode);
-    } else {
-        res.json({
-            message: text,
-            err: err
-        }, errorCode);
+exports.response = function(res, params) {
+    var opts = {
+        message: params.message,
+        result: params.result
+    }
+    if (sails.config.local.environment === 'development')
+    {
+        opts.err = params.err
+    }
+    res.json(opts, params.code)
+    if (params.code !== 200)//log the error into DB
+    {
+        var log = {
+            message: params.err.message,
+            root: params.err.root,
+            date: new Date().format(res.i18n('MM/dd/yyyy HH:MM:ss'))
+        }
+        Logs.create(log).done(function(err, item) {
+            if (err)
+                console.log(log)
+        })
     }
 }
 
 exports.changehtml = function(str) {
     str = str.replace('&amp;', '&');
     return str;
+}
+
+exports.hash = function(rawtext, callback) {
+    var bcrypt = require('bcrypt');
+    bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(rawtext, salt, callback);
+    });
+}
+
+exports.validateObject = function(obj) {
+    return obj !== undefined ? sanitizer.sanitize(obj) : null;
+}
+
+exports.validateObject = function(obj, defaultValue) {
+    if (obj) {
+        var result = sanitizer.sanitize(obj)
+        switch (typeof defaultValue) {//if not, then last chance is convert it
+            case 'number':
+                return Utils.parseFloat(result)
+                break
+            case 'boolean':
+                return (result == 'true' ? true : false)
+                break
+            case 'string':
+                return result
+                break
+            default :
+                return result
+        }
+    } else {
+        if (defaultValue != undefined)
+            return defaultValue
+        else
+        if (obj === undefined)
+            return ""
+        else
+            return obj
+    }
 }
 

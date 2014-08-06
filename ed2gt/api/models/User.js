@@ -7,9 +7,18 @@
  */
 
 module.exports = {
+    schema: false,
     attributes: {
-        email: 'string',
-        passwd: 'string',
-        name: 'string'
+    },
+    convert: function(obj) {
+        var schema = {
+            email: 'string',
+            passwd: 'string',
+            name: 'string',
+            isActive: false,
+            lastLogin: 'string'
+        }
+        utils.normalize(obj, schema, true)
+        return schema
     }
 };

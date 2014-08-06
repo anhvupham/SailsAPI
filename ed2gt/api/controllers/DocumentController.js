@@ -21,14 +21,45 @@ module.exports = {
         if (item)
         {
             item = Document.convert(item)
+            var email = req.session.user.email
+            var name = req.session.user.name
+            item.createdBy.email = email
+            item.createdBy.name = name
+            item.participants.push({
+                email: email,
+                name: name,
+                joining: true,
+                joindate: new Date().format(res.i18n('MM/dd/yyyy HH:MM:ss'))
+            })
+            item.currentTurn = 0
+            item.currentTurnExpired = new Date().addHours(sails.config.conf.maxHourDuration).format(res.i18n('MM/dd/yyyy HH:MM:ss'))
+            item.logs.push({
+                name : name,
+                email : email,
+                date : new Date().format(res.i18n('MM/dd/yyyy HH:MM:ss')),
+                content : item.content
+            })
             Document.create(item).done(function(err, newitem) {
                 if (err)
                 {
-                    utils.responseError(res, 'Opps, something wrong when trying to create document.', 503, sails.local.environment, err)
+                    var opts = {
+                        message: res.i18n('Opps, something wrong with DB'),
+                        code: 503,
+                        err: {
+                            message: err,
+                            root: 'document.create'
+                        }
+                    }
+                    utils.response(res, opts)
                 }
                 else
                 {
-                    res.json({status: 'ok', result: newitem})
+                    var opts = {
+                        message: 'ok',
+                        code: 200,
+                        result: newitem
+                    }
+                    utils.response(res, opts)
                 }
             })
         }
