@@ -11,10 +11,20 @@ module.exports = function(req, res, next) {
 
     // User is allowed, proceed to the next policy, 
     // or if this is the last policy, the controller
-    if (req.session.user) {
+    if (req.session.user && !req.param('dev')) {
         return next();
     }
-    if (req.param('dev') === 'true')
+    if (req.param('dev') === 'mary')
+    {
+        req.session.user = {
+            name: 'Mary',
+            email: 'maryjane@gmail.com',
+            id: 'test',
+            isAdmin : true
+        }
+        return next();
+    }
+    if (req.param('dev') === 'vincent')
     {
         req.session.user = {
             name: 'Vincent',

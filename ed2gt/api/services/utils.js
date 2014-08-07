@@ -125,9 +125,68 @@ exports.validateObject = function(obj, defaultValue) {
             return defaultValue
         else
         if (obj === undefined)
-            return ""
+            return ''
         else
             return obj
     }
 }
 
+exports.duration = function(params) {
+    var participants = params.participants.length
+    var maxHourDuration = params.participants.maxHourDuration ? params.participants.maxHourDuration : sails.config.conf.maxHourDuration
+    return parseInt(maxHourDuration / participants)
+}
+
+exports.now = function(res, hours) {
+    if (!hours)
+        return new Date().format(res.i18n('mm/dd/yyyy HH:MM:ss'))
+    else
+        return new Date().addHours(hours).format(res.i18n('mm/dd/yyyy HH:MM:ss'))
+}
+
+exports.sendEmail = function(params, callback)
+{
+    var to = ''
+    if (params.sendto.constructor === Array)
+    {
+        for (var i = 0; i < params.sendto.length; i++)
+        {
+            to += (params.sendto[i] + ',')
+        }
+    }
+    else
+    {
+        to = params.sendto
+    }
+
+    var nodemailer = require('nodemailer')
+    var smtpTransport = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: sails.config.smtp.smtpusername,
+            pass: sails.config.smtp.smtppass
+        }
+    });
+
+    var mail = {
+        from: require('util').format('%s <%s>', sails.config.smtp.emailFrom, sails.config.smtp.smtpusername),
+        to: to,
+        subject: params.subject,
+        text: params.text,
+        html: params.html,
+        attachments: params.attachments
+    }
+
+    smtpTransport.sendMail(mail, function(err, response) {
+        if (err)
+        {
+            callback(err)
+        }
+        else
+        {
+            callback('')
+        }
+
+        smtpTransport.close();
+    });
+}

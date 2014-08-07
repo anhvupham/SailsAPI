@@ -38,7 +38,11 @@ module.exports.policies = {
         '*': false,
         'create': ['isAuthenticated', 'localize'],
         'getById': ['isAuthenticated', 'localize'],
-        'getDocumentsByEmail': ['isAuthenticated', 'localize']
+        'getDocuments': ['isAuthenticated', 'localize'],
+        'addLog': ['isAuthenticated', 'localize'],
+        'join': ['isAuthenticated', 'localize'],
+        'editLog': ['isAuthenticated', 'localize'],
+        'share': ['isAuthenticated', 'localize']
     },
     UserController: {
         '*': false,

@@ -13,23 +13,33 @@ module.exports = {
         var schema = {
             title: '',
             content: '',
+            limitword: '',
             createdBy: {
+                name : '',
                 email : ''
             },
             participants: [
                 {
+                    name : '',
                     email : '',
                     joining: false,
-                    joindate : ''
+                    joindate : '',
+                    order : 0
                 }
             ],
-            currentTurn: '',
-            currentTurnExpired: '',
+            currentTurn: {
+                email : '',
+                name : '',
+                expire : ''
+            },
             logs: [
                 {
+                    name : '',
+                    id: '',
                     email : '',
                     date: '',
-                    content: ''
+                    content: '',
+                    modified : ''
                 }
             ]
         }

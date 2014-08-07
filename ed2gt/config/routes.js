@@ -45,7 +45,23 @@ module.exports.routes = {
     },
     '/:lang/document/view/email/:email': {
         controller: 'DocumentController',
-        action: 'getDocumentsByEmail'
+        action: 'getDocuments'
+    },
+    '/:lang/document/addLog': {
+        controller: 'DocumentController',
+        action: 'addLog'
+    },
+    '/:lang/document/join/:id': {
+        controller: 'DocumentController',
+        action: 'join'
+    },
+    '/:lang/document/editlog': {
+        controller: 'DocumentController',
+        action: 'editLog'
+    },
+    '/:lang/document/share': {
+        controller: 'DocumentController',
+        action: 'share'
     },
     /*Document URL*/
     /*User URL*/

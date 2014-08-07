@@ -17,7 +17,8 @@ module.exports = {
             name: 'string',
             isActive: false,
             lastLogin: 'string',
-            isAdmin: false
+            isAdmin: false,
+            sendTo: []
         }
         utils.normalize(obj, schema, true)
         return schema
