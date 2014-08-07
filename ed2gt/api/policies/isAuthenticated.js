@@ -29,7 +29,7 @@ module.exports = function(req, res, next) {
         req.session.user = {
             name: 'Vincent',
             email: 'anhvu.phamduong@gmail.com',
-            id: 'test',
+            id: '53e15e056b4263b13fefc487',
             isAdmin : true
         }
         return next();

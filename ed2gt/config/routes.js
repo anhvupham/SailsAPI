@@ -88,6 +88,10 @@ module.exports.routes = {
     '/:lang/user/block/:email': {
         controller: 'UserController',
         action: 'blockUser'
+    },
+    '/:lang/user/suggest': {
+        controller: 'UserController',
+        action: 'suggestEmail'
     }
     /*User URL*/
     /*

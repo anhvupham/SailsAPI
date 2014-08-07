@@ -300,5 +300,61 @@ module.exports = {
                 }
             }
         })
+    },
+    suggestEmail: function(req, res) {
+        var string = utils.validateObject(req.body.string, '')
+        User.findOne(req.session.user.id).done(function(err, item) {
+            if (err)
+            {
+                var opts = {
+                    message: res.i18n('Opps, something wrong with DB'),
+                    code: 500,
+                    err: {
+                        message: err,
+                        root: 'user.suggestEmail.findOne'
+                    }
+                }
+                utils.response(res, opts)
+            }
+            else
+            {
+                if (!item)
+                {
+                    var opts = {
+                        message: res.i18n('Can\'t find you in the system. Are you real ?'),
+                        code: 200
+                    }
+                    utils.response(res, opts)
+                }
+                else
+                {
+                    var contacts = item.contacts.filter(function(e) {
+                        return e.startsWith(string)
+                    })
+                    User.native(function(err, collection)
+                    {
+                        if (collection)
+                        {
+                            collection.find({$text: {$search: string}}, {score: {$meta: 'textScore'}}, function(err, items) {
+                                if (items)
+                                {
+                                    items.sort({score: {$meta: 'textScore'}})
+                                    items.toArray(function(err, array) {
+                                        array.forEach(function(item) {
+                                            contacts.push(require('util').format(res.i18n('%s <%s>'), item.name, item.email))
+                                        })
+                                        res.json(contacts)
+                                    })
+                                }
+                                else
+                                {
+                                    res.json(contacts)
+                                }
+                            })
+                        }
+                    })
+                }
+            }
+        })
     }
 };

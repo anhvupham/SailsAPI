@@ -605,17 +605,17 @@ module.exports = {
                 if (sendto.constructor === Array)
                 {
                     sendto.forEach(function(e) {
-                        if (item.sendTo.indexOf(e) < 0)
+                        if (item.contacts.indexOf(e) < 0)
                         {
-                            item.sendTo.push(e)
+                            item.contacts.push(e)
                         }
                     })
                 }
                 else
                 {
-                    if (item.sendTo.indexOf(sendto) < 0)
+                    if (item.contacts.indexOf(sendto) < 0)
                     {
-                        item.sendTo.push(sendto)
+                        item.contacts.push(sendto)
                     }
                 }
                 item.save(function(err) {

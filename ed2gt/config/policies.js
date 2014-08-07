@@ -51,7 +51,8 @@ module.exports.policies = {
         'generateCaptcha': true,
         'changeName': ['isAuthenticated', 'localize'],
         'getNameByEmail': ['isAuthenticated', 'localize'],
-        'blockUser': ['isAuthenticated', 'localize', 'isAdmin']
+        'blockUser': ['isAuthenticated', 'localize', 'isAdmin'],
+        'suggestEmail': ['isAuthenticated', 'localize']
     }
 };
 

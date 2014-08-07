@@ -127,6 +127,10 @@ module.exports.bootstrap = function(cb) {
     Date.prototype.format = function(mask, utc) {
         return dateFormat(this, mask, utc);
     };
+    
+    String.prototype.startsWith = function (str) {
+        return !this.indexOf(str);
+    };
     // It's very important to trigger this callack method when you are finished 
     // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
     cb();
