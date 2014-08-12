@@ -2,7 +2,7 @@
  * DocumentController
  *
  * @module      :: Controller
- * @description	:: A set of functions called `actions`.
+ * @description :: A set of functions called `actions`.
  *
  *                 Actions contain code telling Sails how to respond to a certain type of request.
  *                 (i.e. do stuff, then send some JSON, show an HTML page, or redirect to another URL)
@@ -16,10 +16,9 @@
  */
 
 module.exports = {
-    create: function(req, res) {
-        var item = req.body
-        if (item)
-        {
+    create: function (req, res) {
+        var item = req.body;
+        if (item) {
             item = Document.convert(item)
             var email = req.session.user.email
             var name = req.session.user.name
