@@ -1,4 +1,4 @@
 # SailsAPI
-This is some apis for Document-User collaboration written on Sails.
+Some apis for Document-User collaboration written on Sails.
 
 
